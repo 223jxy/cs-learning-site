@@ -1,0 +1,698 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="面向零基础学习者的计算机知识学习地图，从文件、系统与网络常识逐步进入编程和计算机科学。">
+  <meta name="theme-color" content="#17251f">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>计算机学习地图</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="主导航">
+      <div class="brand">
+        <img class="brand-avatar" src="assets/learning-guide-avatar.svg" alt="">
+        <div class="brand-copy">
+          <strong>计算机学习地图</strong>
+          <span>从零开始，逐层掌握</span>
+        </div>
+      </div>
+
+      <nav class="primary-nav">
+        <button class="nav-item is-active" data-view="dashboard" type="button">
+          <span class="nav-icon" aria-hidden="true">⌂</span><span>学习台</span>
+        </button>
+        <button class="nav-item" data-view="roadmap" type="button">
+          <span class="nav-icon" aria-hidden="true">◇</span><span>知识路线</span>
+        </button>
+        <button class="nav-item" data-view="library" type="button">
+          <span class="nav-icon" aria-hidden="true">▤</span><span>课程库</span>
+        </button>
+        <button class="nav-item" data-view="glossary" type="button">
+          <span class="nav-icon" aria-hidden="true">A</span><span>术语表</span>
+        </button>
+        <button class="nav-item" data-view="review" type="button">
+          <span class="nav-icon" aria-hidden="true">✓</span><span>复习笔记</span>
+        </button>
+        <button class="nav-item" data-view="ai" type="button">
+          <span class="nav-icon nav-icon-ai" aria-hidden="true">AI</span><span>AI 专区</span><small class="nav-badge" id="ai-nav-badge">84</small>
+        </button>
+        <button class="nav-item" data-view="future" type="button">
+          <span class="nav-icon" aria-hidden="true">✦</span><span>专业方向</span><small class="nav-badge">已开放</small>
+        </button>
+        <button class="nav-item" data-view="portfolio" type="button">
+          <span class="nav-icon" aria-hidden="true">▣</span><span>项目作品集</span><small class="nav-badge" id="portfolio-nav-badge">0</small>
+        </button>
+        <button class="nav-item" data-view="resources" type="button">
+          <span class="nav-icon" aria-hidden="true">↗</span><span>资源索引</span><small class="nav-badge" id="resource-nav-badge">0</small>
+        </button>
+      </nav>
+
+      <div class="sidebar-progress">
+        <div class="progress-label">
+          <span>总进度</span>
+          <strong id="sidebar-progress-value">0%</strong>
+        </div>
+        <div class="progress-track" aria-hidden="true"><span id="sidebar-progress-bar"></span></div>
+        <p id="sidebar-progress-copy">尚未开始</p>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>进度保存在本机</span>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-button" type="button" title="打开导航" aria-label="打开导航" aria-expanded="false">☰</button>
+        <div class="search-wrap">
+          <span aria-hidden="true">⌕</span>
+          <input id="global-search" type="search" placeholder="搜索课程、术语或知识点" autocomplete="off" aria-label="搜索课程、术语或知识点">
+          <kbd>Ctrl K</kbd>
+          <div class="search-results" id="search-results" hidden></div>
+        </div>
+        <div class="topbar-date">
+          <span id="today-label"></span>
+          <strong id="study-day-label">第 1 天</strong>
+        </div>
+      </header>
+
+      <main id="main-content">
+        <section class="view is-visible" id="dashboard-view" data-view-panel="dashboard">
+          <div class="dashboard-hero">
+            <img src="assets/computer-learning.jpg" alt="桌面上的笔记本电脑与学习资料">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+              <span class="eyebrow" id="hero-stage-label">当前阶段 · 电脑使用基础</span>
+              <h1 id="hero-title">先弄明白电脑每天在做什么</h1>
+              <p id="hero-summary">从文件名、路径和程序开始，把熟悉的操作连接成一套清楚的系统。</p>
+              <div class="hero-learning-context" aria-label="当前阶段概况">
+                <div><span>阶段进度</span><strong id="hero-stage-progress">0 / 4</strong></div>
+                <div><span>下一课</span><strong id="hero-next-duration">18 分钟</strong></div>
+                <div class="hero-progress-block">
+                  <span><span>完成度</span><strong id="hero-stage-percent">0%</strong></span>
+                  <div class="hero-progress-track" aria-hidden="true"><i id="hero-stage-bar"></i></div>
+                </div>
+              </div>
+              <button class="primary-button" id="continue-button" type="button">继续学习 <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+
+          <div class="metric-strip" aria-label="学习概况">
+            <div class="metric"><span>已完成</span><strong id="completed-count">0</strong><small>节课程</small></div>
+            <div class="metric"><span>路线进度</span><strong id="overall-percent">0%</strong><small id="stage-progress-note">阶段 0 / 9</small></div>
+            <div class="metric"><span>本周学习</span><strong id="weekly-days">0</strong><small>天有记录</small></div>
+            <div class="metric"><span>知识练习</span><strong id="practice-count">0</strong><small>项已完成</small></div>
+          </div>
+
+          <section class="section-block learning-data-panel" aria-labelledby="learning-data-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">学习数据</span>
+                <h2 id="learning-data-title">把练习、笔记和进度留在自己手里</h2>
+              </div>
+              <div class="learning-data-actions">
+                <button class="secondary-button" id="export-progress" type="button">导出数据</button>
+                <button class="secondary-button" id="import-progress" type="button">导入数据</button>
+                <button class="secondary-button" id="clear-offline-cache" type="button">清理离线缓存</button>
+                <input id="import-progress-file" type="file" accept="application/json,.json" hidden>
+              </div>
+            </div>
+            <div class="pwa-status" id="pwa-status" role="status" aria-live="polite">正在检查离线缓存</div>
+            <div class="learning-data-grid" aria-label="本地学习数据概况">
+              <div><span>课程笔记</span><strong id="note-count">0</strong><small>节课有记录</small></div>
+              <div><span>知识检查</span><strong id="quiz-count">0</strong><small>节课已提交</small></div>
+              <div><span>阅读断点</span><strong id="reading-position-count">0</strong><small>节课可继续</small></div>
+              <div><span>备份状态</span><strong id="backup-status">未导出</strong><small>仅保存到当前浏览器</small></div>
+            </div>
+            <div class="backup-reminder is-idle" id="backup-reminder" role="status" aria-live="polite">
+              <span aria-hidden="true"></span><div><strong>暂无学习数据</strong><small>开始学习后可导出一份本地备份。</small></div>
+            </div>
+            <div class="learning-preference-row">
+              <div>
+                <strong>课程完成方式</strong>
+                <span id="completion-mode-hint">浏览课程后，由你点击完成按钮。</span>
+              </div>
+              <div class="completion-mode-control" role="radiogroup" aria-label="课程完成方式">
+                <label><input type="radio" name="completion-mode" value="manual" checked><span>自行标记</span></label>
+                <label><input type="radio" name="completion-mode" value="auto"><span>浏览到底自动完成</span></label>
+              </div>
+            </div>
+            <div class="learning-preference-row">
+              <div>
+                <strong>记住阅读位置</strong>
+                <span id="resume-reading-hint">主线、方向和 AI 课程会回到上次章节，位置可随学习数据导出。</span>
+              </div>
+              <div class="completion-mode-control reading-resume-control" role="radiogroup" aria-label="是否记住课程阅读位置">
+                <label><input type="radio" name="resume-reading" value="on" checked><span>记住位置</span></label>
+                <label><input type="radio" name="resume-reading" value="off"><span>每次从头</span></label>
+              </div>
+            </div>
+            <section class="display-preferences" aria-labelledby="display-preferences-title">
+              <div class="display-preferences-heading"><div><strong id="display-preferences-title">阅读显示</strong><span>只影响你的当前浏览器，不会修改课程内容。</span></div></div>
+              <div class="display-preferences-grid">
+                <label><span>正文字号</span><select id="display-font-size" aria-label="课程正文字号"><option value="small">小</option><option value="standard">标准</option><option value="large">大</option></select></label>
+                <label><span>阅读间距</span><select id="display-reading-density" aria-label="课程阅读间距"><option value="compact">紧凑</option><option value="comfortable">舒适</option></select></label>
+                <label class="display-toggle"><input id="display-high-contrast" type="checkbox"><span>高对比度</span></label>
+                <label class="display-toggle"><input id="display-reduce-motion" type="checkbox"><span>减少动效</span></label>
+              </div>
+            </section>
+            <section class="recent-reading-panel" aria-labelledby="recent-reading-title">
+              <div class="recent-reading-heading">
+                <div>
+                  <strong id="recent-reading-title">最近阅读</strong>
+                  <span>从上次章节继续，或清理已经不需要的阅读位置。</span>
+                </div>
+                <div class="recent-reading-toolbar">
+                  <span id="recent-reading-count">0 节课程</span>
+                  <button class="secondary-button" id="toggle-all-reading-positions" type="button" hidden>查看全部</button>
+                  <button class="secondary-button" id="clear-all-reading-positions" type="button" disabled>清除全部</button>
+                </div>
+              </div>
+              <div class="recent-reading-filters" aria-label="按课程类型筛选最近阅读">
+                <button class="is-active" type="button" data-reading-kind-filter="all" aria-pressed="true"><span>全部</span><strong data-reading-kind-count="all">0</strong></button>
+                <button type="button" data-reading-kind-filter="main" aria-pressed="false"><span>主线</span><strong data-reading-kind-count="main">0</strong></button>
+                <button type="button" data-reading-kind-filter="extension" aria-pressed="false"><span>方向</span><strong data-reading-kind-count="extension">0</strong></button>
+                <button type="button" data-reading-kind-filter="ai" aria-pressed="false"><span>AI</span><strong data-reading-kind-count="ai">0</strong></button>
+              </div>
+              <div class="recent-reading-tools" aria-label="搜索、筛选和排序最近阅读">
+                <label class="recent-reading-search">
+                  <span aria-hidden="true">⌕</span>
+                  <input id="recent-reading-search" type="search" maxlength="80" placeholder="搜索课程名、阶段、方向或章节">
+                </label>
+                <label class="recent-reading-sort">
+                  <span>练习</span>
+                  <select id="recent-reading-evidence" aria-label="最近阅读练习记录筛选">
+                    <option value="all">全部练习</option>
+                    <option value="with">有练习记录</option>
+                    <option value="without">待补练习</option>
+                  </select>
+                </label>
+                <label class="recent-reading-sort">
+                  <span>排序</span>
+                  <select id="recent-reading-sort" aria-label="最近阅读排序方式">
+                    <option value="recent">最近更新</option>
+                    <option value="unfinished">未完成优先</option>
+                    <option value="progress-desc">阅读进度高到低</option>
+                    <option value="progress-asc">阅读进度低到高</option>
+                    <option value="stage">主线阶段</option>
+                    <option value="type">课程类型</option>
+                  </select>
+                </label>
+              </div>
+              <div class="recent-reading-list" id="recent-reading-list"></div>
+            </section>
+          </section>
+
+          <div class="dashboard-grid section-block">
+            <section class="continue-panel" aria-labelledby="continue-title">
+              <div class="section-heading">
+                <div>
+                  <span class="section-kicker">下一步</span>
+                  <h2 id="continue-title">继续你的学习路线</h2>
+                </div>
+                <button class="text-button" data-go-view="roadmap" type="button">查看路线 <span aria-hidden="true">→</span></button>
+              </div>
+              <div id="next-lesson-card"></div>
+            </section>
+
+            <aside class="today-panel" aria-labelledby="today-title">
+              <div class="section-heading compact">
+                <div>
+                  <span class="section-kicker">今日</span>
+                  <h2 id="today-title">学习清单</h2>
+                </div>
+                <span class="task-counter" id="task-counter">0 / 3</span>
+              </div>
+              <div id="daily-tasks" class="task-list"></div>
+              <section class="study-week" aria-labelledby="study-week-title">
+                <div class="study-week-heading"><strong id="study-week-title">近 7 日任务</strong><span>每天完成项数</span></div>
+                <div class="study-week-days" id="study-week-days"></div>
+              </section>
+            </aside>
+          </div>
+
+          <section class="section-block stage-preview" aria-labelledby="stage-preview-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">知识地图</span>
+                <h2 id="stage-preview-title">先建立全局，再逐层深入</h2>
+              </div>
+              <button class="text-button" data-go-view="roadmap" type="button">全部阶段 <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="stage-preview-grid" id="stage-preview-grid"></div>
+          </section>
+
+          <section class="section-block concept-band" aria-labelledby="concept-title">
+            <div>
+              <span class="section-kicker">核心模型</span>
+              <h2 id="concept-title">一次打开网页，经过了哪些层？</h2>
+              <p>把硬件、系统、程序、网络和数据放进同一条因果链里。</p>
+            </div>
+            <ol class="concept-flow">
+              <li><span>1</span><strong>硬件</strong><small>CPU · 内存 · 网卡</small></li>
+              <li><span>2</span><strong>系统</strong><small>进程 · 文件 · 权限</small></li>
+              <li><span>3</span><strong>程序</strong><small>浏览器执行代码</small></li>
+              <li><span>4</span><strong>网络</strong><small>DNS · TCP · HTTPS</small></li>
+              <li><span>5</span><strong>数据</strong><small>页面内容被呈现</small></li>
+            </ol>
+          </section>
+        </section>
+
+        <section class="view" id="roadmap-view" data-view-panel="roadmap">
+          <div class="page-header">
+            <div>
+              <span class="section-kicker">完整知识框架</span>
+              <h1>计算机学习路线</h1>
+              <p>先建立使用能力，再理解系统原理，最后进入专业方向。</p>
+            </div>
+            <div class="page-progress"><strong id="roadmap-percent">0%</strong><span>整体完成度</span></div>
+          </div>
+          <div class="roadmap-density-toolbar" aria-label="学习路线显示范围">
+            <div class="roadmap-density-control" role="group" aria-label="选择学习路线密度">
+              <button class="is-active" type="button" data-roadmap-mode="current" aria-pressed="true">只看当前阶段</button>
+              <button type="button" data-roadmap-mode="all" aria-pressed="false">展开全部</button>
+            </div>
+            <span id="roadmap-visible-count" aria-live="polite">1 / 10 阶段</span>
+          </div>
+          <div class="roadmap-layout">
+            <div class="roadmap-list" id="roadmap-list"></div>
+            <aside class="roadmap-aside">
+              <span class="section-kicker">学习原则</span>
+              <h2>每一阶段都要闭环</h2>
+              <ol>
+                <li>先理解它解决什么问题</li>
+                <li>观察一个真实例子</li>
+                <li>亲手完成最小练习</li>
+                <li>制造错误并定位原因</li>
+                <li>用自己的话复述</li>
+              </ol>
+              <div class="pace-box"><strong>推荐节奏</strong><span>每天 45–90 分钟</span><small>理解 30% · 实践 50% · 复盘 20%</small></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="library-view" data-view-panel="library">
+          <div class="page-header library-header">
+            <div>
+              <span class="section-kicker">按主题学习</span>
+              <h1>课程库</h1>
+              <p>按阶段和完成状态筛选，也可以从短课开始或优先安排长课。</p>
+            </div>
+          </div>
+          <section class="library-toolbar" aria-label="课程库筛选和排序">
+            <div class="library-stage-filter">
+              <span>学习阶段</span>
+              <div class="filter-group" id="library-filters" aria-label="按阶段筛选课程"></div>
+            </div>
+            <div class="library-control-row">
+              <label>
+                <span>完成状态</span>
+                <select id="library-status-filter" aria-label="按完成状态筛选课程">
+                  <option value="all">全部状态</option>
+                  <option value="incomplete">未完成</option>
+                  <option value="complete">已完成</option>
+                </select>
+              </label>
+              <label>
+                <span>课程排序</span>
+                <select id="library-sort" aria-label="课程排序方式">
+                  <option value="route">路线顺序</option>
+                  <option value="duration-asc">时长从短到长</option>
+                  <option value="duration-desc">时长从长到短</option>
+                </select>
+              </label>
+              <button class="library-reset-button" id="library-reset-filters" type="button" data-reset-library-filters>重置筛选</button>
+              <div class="library-result-summary" aria-live="polite">
+                <strong id="library-visible-count">152 / 152</strong>
+                <span id="library-duration-summary">当前课程总时长</span>
+              </div>
+            </div>
+          </section>
+          <div class="course-grid" id="course-grid"></div>
+        </section>
+
+        <section class="view" id="glossary-view" data-view-panel="glossary">
+          <div class="page-header">
+            <div>
+              <span class="section-kicker">基础词典</span>
+              <h1>计算机术语表</h1>
+              <p>先用日常语言理解，再逐步补上准确的技术定义。</p>
+            </div>
+            <label class="glossary-search">
+              <span aria-hidden="true">⌕</span>
+              <input type="search" id="glossary-search" placeholder="筛选术语" aria-label="筛选术语">
+            </label>
+          </div>
+          <div class="glossary-grid" id="glossary-grid"></div>
+        </section>
+
+        <section class="view" id="review-view" data-view-panel="review">
+          <div class="page-header review-header">
+            <div>
+              <span class="section-kicker">复习笔记</span>
+              <h1>把答错的题和写过的笔记找回来</h1>
+              <p>集中查看错题和笔记，搜索后可直接回到对应课程。</p>
+            </div>
+            <div class="review-summary" aria-label="复习数据概况">
+              <div><strong id="review-mistake-count">0</strong><span>道未复习错题</span></div>
+              <div><strong id="review-note-count">0</strong><span>篇学习笔记</span></div>
+            </div>
+          </div>
+
+          <section class="section-block review-section stage-review-section" aria-labelledby="stage-review-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">阶段复盘</span>
+                <h2 id="stage-review-title">把一个阶段的完成、练习、笔记和错题放在一起看</h2>
+              </div>
+              <div class="stage-review-actions">
+                <label>
+                  <span>复盘阶段</span>
+                  <select id="stage-review-filter" aria-label="选择要复盘的主线阶段"></select>
+                </label>
+                <button class="secondary-button" id="export-stage-review" type="button"><span aria-hidden="true">↓</span> 导出本阶段</button>
+              </div>
+            </div>
+            <div class="stage-review-panel" id="stage-review-panel"></div>
+          </section>
+
+          <section class="section-block review-section" aria-labelledby="mistake-review-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">错题复习</span>
+                <h2 id="mistake-review-title">优先回看已经暴露的理解漏洞</h2>
+              </div>
+              <span class="review-caption">提交知识检查后自动汇总</span>
+            </div>
+            <div class="review-filter-bar" aria-label="错题筛选">
+              <label>
+                <span>课程类型</span>
+                <select id="mistake-source-filter" aria-label="按课程类型筛选错题"></select>
+              </label>
+              <label>
+                <span>阶段或方向</span>
+                <select id="mistake-group-filter" aria-label="按阶段或专业方向筛选错题"></select>
+              </label>
+              <label>
+                <span>复习状态</span>
+                <select id="mistake-status-filter" aria-label="按复习状态筛选错题">
+                  <option value="all">全部状态</option>
+                  <option value="pending">未复习</option>
+                  <option value="reviewed">已复习</option>
+                </select>
+              </label>
+              <label>
+                <span>排序方式</span>
+                <select id="mistake-sort-filter" aria-label="选择错题排序方式">
+                  <option value="recent">最近错误</option>
+                  <option value="course">课程名称</option>
+                  <option value="knowledge">知识点</option>
+                </select>
+              </label>
+              <strong id="review-filter-count">显示 0 道</strong>
+            </div>
+            <div class="mistake-grid" id="mistake-review-list"></div>
+          </section>
+
+          <section class="section-block review-section" aria-labelledby="note-search-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">笔记搜索</span>
+                <h2 id="note-search-title">从自己的话反向定位课程</h2>
+              </div>
+              <div class="note-search-actions">
+                <span id="note-search-count">0 篇结果</span>
+                <button class="secondary-button" id="export-notes-markdown" type="button"><span aria-hidden="true">↓</span> 导出当前结果</button>
+              </div>
+            </div>
+            <label class="note-search">
+              <span aria-hidden="true">⌕</span>
+              <input id="note-search-input" type="search" placeholder="搜索笔记内容、课程名、阶段或方向">
+            </label>
+            <div class="note-batch-bar" aria-label="笔记标签与批量操作">
+              <label>
+                <span>笔记标签</span>
+                <select id="note-tag-filter" aria-label="按笔记标签筛选"><option value="all">全部标签</option></select>
+              </label>
+              <strong id="selected-note-count">已选择 0 篇</strong>
+              <div class="note-batch-actions">
+                <button class="secondary-button" id="select-visible-notes" type="button">选择当前结果</button>
+                <button class="secondary-button" id="clear-note-selection" type="button" disabled>清空选择</button>
+                <button class="secondary-button" id="export-selected-notes" type="button" disabled><span aria-hidden="true">↓</span> 导出已选</button>
+              </div>
+            </div>
+            <div class="note-tag-manager" id="note-tag-manager" aria-label="管理笔记标签"></div>
+            <div class="evidence-export-panel" aria-label="学习证据导出">
+              <div>
+                <span class="section-kicker">学习证据</span>
+                <strong>导出学习记录、实验、笔记和错题复习</strong>
+                <p>适合阶段复盘、备份和向自己证明这段时间到底做了什么。</p>
+              </div>
+              <button class="secondary-button" id="export-learning-evidence" type="button"><span aria-hidden="true">↓</span> 导出学习证据</button>
+            </div>
+            <div class="note-result-grid" id="note-search-results"></div>
+          </section>
+        </section>
+
+        <section class="view ai-zone-view" id="ai-view" data-view-panel="ai">
+          <header class="ai-zone-header">
+            <div>
+              <span class="section-kicker">AI 专区</span>
+              <h1>从问题定义到模型交付</h1>
+              <p>按知识依赖学习原理，用可运行实验检查每一个关键结论。</p>
+            </div>
+            <div class="ai-zone-progress" aria-label="AI 专区学习进度">
+              <strong id="ai-completed-count">0 / 84</strong>
+              <span>课程完成</span>
+            </div>
+          </header>
+
+          <nav class="ai-zone-tabs" aria-label="AI 专区页面">
+            <button class="is-active" type="button" data-ai-tab="overview">总览</button>
+            <button type="button" data-ai-tab="guides">入门指南</button>
+            <button type="button" data-ai-tab="glossary">AI 词典</button>
+            <button type="button" data-ai-tab="map">知识地图</button>
+            <button type="button" data-ai-tab="courses">课程</button>
+            <button type="button" data-ai-tab="labs">实验室</button>
+            <button type="button" data-ai-tab="anatomy">模型解剖</button>
+            <button type="button" data-ai-tab="papers">论文导读</button>
+            <button type="button" data-ai-tab="governance">安全治理</button>
+          </nav>
+
+          <div class="ai-zone-panel" id="ai-zone-content"></div>
+        </section>
+
+        <section class="view" id="future-view" data-view-panel="future">
+          <div class="page-header future-header">
+            <div>
+              <span class="section-kicker">专业方向</span>
+              <h1>专业方向学习</h1>
+              <p>选择一个方向，用课程和真实项目建立专业能力。</p>
+            </div>
+            <div class="future-release-summary" aria-label="专业方向状态">
+              <strong id="extension-completed-count">0 / 120</strong><span>方向课程完成</span>
+            </div>
+          </div>
+
+          <section class="future-intro-band" aria-labelledby="future-intro-title">
+            <div class="future-lock-mark" aria-hidden="true">⌁</div>
+            <div>
+              <span class="section-kicker">学习方式</span>
+              <h2 id="future-intro-title">先打牢基础，再用短项目验证方向</h2>
+              <p>每个方向都包含课程、项目和验收标准，可以按兴趣选择一条开始。</p>
+            </div>
+            <div class="future-requirement">
+              <span>建议进度</span><strong>阶段 0–9 完成</strong><small>可按兴趣并行试炼</small>
+            </div>
+          </section>
+
+          <section class="future-route-section section-block" aria-labelledby="future-route-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">方向课程</span>
+                <h2 id="future-route-title">选择一个方向，完成课程与真实项目</h2>
+              </div>
+              <span class="future-caption" id="extension-route-status">共 120 节课程</span>
+            </div>
+            <div class="future-tool-panel" aria-label="方向课程工具">
+              <label class="future-search">
+                <span aria-hidden="true">⌕</span>
+                <input id="extension-search-input" type="search" placeholder="搜索方向、课程、模块或练习" aria-label="搜索方向课程">
+              </label>
+              <div class="future-tool-meta">
+                <span><strong id="extension-note-count">0</strong> 篇方向笔记</span>
+              </div>
+            </div>
+            <div class="future-scope-tabs" role="tablist" aria-label="按方向家族筛选">
+              <button class="is-active" type="button" role="tab" aria-selected="true" data-future-scope="all">全部方向</button>
+              <button type="button" role="tab" aria-selected="false" data-future-scope="web">Web</button>
+              <button type="button" role="tab" aria-selected="false" data-future-scope="ai">AI</button>
+              <button type="button" role="tab" aria-selected="false" data-future-scope="security">安全</button>
+              <button type="button" role="tab" aria-selected="false" data-future-scope="system">系统</button>
+            </div>
+            <div class="extension-search-results" id="extension-search-results" hidden></div>
+            <div class="future-route-grid" id="future-route-grid"></div>
+          </section>
+
+          <section class="future-build-process section-block" aria-labelledby="future-process-title">
+            <div>
+              <span class="section-kicker">建设流程</span>
+              <h2 id="future-process-title">每个专业方向通过四个阶段建设</h2>
+            </div>
+            <ol>
+              <li><span>01</span><strong>知识结构</strong><small>确定前置与边界</small></li>
+              <li><span>02</span><strong>实践项目</strong><small>设计逐级任务</small></li>
+              <li><span>03</span><strong>验收标准</strong><small>补测试与复盘</small></li>
+              <li><span>04</span><strong>正式开放</strong><small>完成体验验证</small></li>
+            </ol>
+          </section>
+        </section>
+
+        <section class="view" id="portfolio-view" data-view-panel="portfolio">
+          <div class="page-header portfolio-header">
+            <div>
+              <span class="section-kicker">项目作品集</span>
+              <h1>把学习成果做成可展示的项目</h1>
+              <p>按方向查看项目要求、推荐课程、交付物和验收清单。</p>
+            </div>
+            <div class="portfolio-summary" aria-label="项目作品集统计">
+              <strong id="portfolio-visible-count">0 / 18</strong><span>当前显示 / 全部项目</span>
+            </div>
+          </div>
+
+          <section class="section-block portfolio-tool-panel" aria-label="项目作品集筛选工具">
+            <label class="portfolio-search">
+              <span aria-hidden="true">⌕</span>
+              <input id="portfolio-search-input" type="search" placeholder="搜索项目名、方向、模块、验收项或关键词" aria-label="搜索专业方向项目作品集">
+            </label>
+            <div>
+              <span class="portfolio-filter-label">方向</span>
+              <div class="portfolio-filter-group" id="portfolio-route-filters" aria-label="按专业方向筛选项目"></div>
+            </div>
+          </section>
+
+          <section class="section-block portfolio-index-section" aria-labelledby="portfolio-index-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">作品清单</span>
+                <h2 id="portfolio-index-title">从入门作品到综合交付，按方向逐项推进</h2>
+              </div>
+              <span class="future-caption" id="portfolio-route-count">方向 0 个</span>
+            </div>
+            <div class="portfolio-grid" id="portfolio-grid"></div>
+          </section>
+        </section>
+
+        <section class="view" id="resources-view" data-view-panel="resources">
+          <div class="page-header resource-header">
+            <div>
+              <span class="section-kicker">资源索引</span>
+              <h1>把全站可靠资料按课程关系找回来</h1>
+              <p>统一查找主专业方向与 AI 专区引用的官方资料、论文和课程来源。</p>
+            </div>
+            <div class="resource-summary" aria-label="资源索引统计">
+              <strong id="resource-visible-count">0 / 118</strong><span>当前显示 / 全部资料</span>
+            </div>
+          </div>
+
+          <section class="section-block resource-tool-panel" aria-label="资源索引筛选工具">
+            <label class="resource-search">
+              <span aria-hidden="true">⌕</span>
+              <input id="resource-search-input" type="search" placeholder="搜索资料标题、来源、分类、模块或资料编号" aria-label="搜索全站学习资源">
+            </label>
+            <div class="resource-filter-row">
+              <div>
+                <span class="resource-filter-label">方向</span>
+                <div class="resource-filter-group" id="resource-route-filters" aria-label="按专业方向筛选"></div>
+              </div>
+              <div>
+                <span class="resource-filter-label">来源</span>
+                <div class="resource-filter-group" id="resource-provider-filters" aria-label="按资料来源筛选"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section-block resource-index-section" aria-labelledby="resource-index-title">
+            <div class="section-heading">
+              <div>
+                <span class="section-kicker">资料清单</span>
+                <h2 id="resource-index-title">每条资料都标明用在哪个方向和模块</h2>
+              </div>
+              <span class="future-caption" id="resource-provider-count">来源 0 类</span>
+            </div>
+            <div class="resource-grid" id="resource-grid"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <section class="lesson-modal" id="lesson-drawer" role="dialog" aria-modal="true" aria-labelledby="lesson-title" aria-hidden="true">
+    <div class="lesson-toolbar">
+      <div class="lesson-toolbar-copy">
+        <span id="lesson-stage-label">阶段 0</span>
+        <strong id="lesson-position-label">第 1 课</strong>
+      </div>
+      <div class="lesson-toolbar-progress" aria-hidden="true"><span id="lesson-position-bar"></span></div>
+      <button class="icon-button" id="close-lesson" type="button" title="关闭课程" aria-label="关闭课程">×</button>
+    </div>
+    <article id="lesson-content"></article>
+    <div class="lesson-actions">
+      <button class="secondary-button" id="previous-lesson" type="button"><span aria-hidden="true">←</span> 上一课</button>
+      <button class="complete-button" id="complete-lesson" type="button">标记为已完成</button>
+      <button class="secondary-button" id="next-lesson" type="button">下一课 <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="foundation-high-density.js"></script>
+  <script src="stage1-high-density.js"></script>
+  <script src="stage2-high-density.js"></script>
+  <script src="stage3-high-density.js"></script>
+  <script src="foundation-practice-labs.js"></script>
+  <script src="course-labs.js"></script>
+  <script src="course-labs-stage6-9.js"></script>
+  <script src="lesson-profile-builder.js"></script>
+  <script src="stage4-course-config.js"></script>
+  <script src="stage4-high-density.js"></script>
+  <script src="stage5-high-density.js"></script>
+  <script src="stage6-high-density.js"></script>
+  <script src="stage7-high-density.js"></script>
+  <script src="stage8-high-density.js"></script>
+  <script src="stage9-high-density.js"></script>
+  <script src="stage4-9-sample-deep-dives.js"></script>
+  <script src="stage4-8-course-references.js"></script>
+  <script src="ai-zone-data.js"></script>
+  <script src="ai-zone-az2-data.js"></script>
+  <script src="ai-zone-az3-data.js"></script>
+  <script src="ai-zone-az4-data.js"></script>
+  <script src="ai-zone-az5-data.js"></script>
+  <script src="ai-zone-az6-data.js"></script>
+  <script src="ai-foundation-data.js"></script>
+  <script src="ai-foundation-depth-data.js"></script>
+  <script src="app-core-data.js"></script>
+  <script src="data/mainline-data.js"></script>
+  <script src="data/extension-data.js"></script>
+  <script src="app-project-tools.js"></script>
+  <script src="app-state.js"></script>                 
+  <script src="app-model.js"></script>                 
+  <script src="app-ai-view.js"></script>               
+  <script src="app-reading.js"></script>                
+  <script src="app-review-notes.js"></script>           
+  <script src="app-review-tools.js"></script>           
+  <script src="app-stage-review.js"></script>
+  <script src="app-course-views.js"></script>           
+  <script src="app.js"></script>                       
+</body>
+</html>
+
+
