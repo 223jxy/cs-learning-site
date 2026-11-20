@@ -89,6 +89,26 @@ http://127.0.0.1:4173
 - 桌面端、平板和移动端响应式布局。
 - 键盘可访问的课程卡片、焦点样式和减少动画偏好支持。
 
+## Measured results
+
+Counted from the committed data files and source, not estimated.
+
+| Metric | Value | How it was obtained |
+|---|---|---|
+| Total code | **41,194 lines** of JS (excl. `node_modules` and `work/`) | `find . -name "*.js"` + `wc -l` |
+| Top-level modules | **37** JS files | `ls *.js` |
+| Curriculum nodes | **165** `id:` entries in `mainline-data.js` | `grep -c "id:"` |
+| Content titles | **244** across main line + AI foundations | `grep -c "title:"` |
+| Learning stages | **28** | `grep -c "阶段"` |
+| Sections | **82** | `grep -c "节"` |
+| AI-foundation lessons | **45** | `grep -c "lesson"` in `ai-foundation-data.js` |
+| Build step | **None** — plain static files, no bundler | `index.html` loads scripts directly |
+| Offline capable | **Yes** — all data is local `.js`, no runtime API calls | grepped data loaders for `fetch(` |
+
+**Why no bundle step matters**: the site is `index.html` plus plain scripts, so it runs anywhere with no network.
+
+**Not measured / not claimed**: first-contentful-paint and Lighthouse scores — these depend on host and machine, so no optimistic figure is quoted. The repo does ship **5** `scripts/check-*.js` quality gates that validate stage density and AI-content quality before release.
+
 ## 目录结构
 
 ```text
