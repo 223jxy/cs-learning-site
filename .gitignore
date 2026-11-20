@@ -1,0 +1,58 @@
+# Local QA and temporary work files
+work/
+.playwright-mcp/
+
+# Browser automation profiles and caches
+edge-*/
+edge-headless-*/
+edge-final-*/
+edge-profile*/
+EdgeProfile/
+msedge-*/
+browser-profile/
+User Data/
+Crashpad/
+Cache/
+Code Cache/
+GPUCache/
+ShaderCache/
+GrShaderCache/
+component_crx_cache/
+extensions_crx_cache/
+
+# Runtime markers and logs
+*.pid
+*.log
+*.err
+*.out
+
+# Generated packages and archives
+outputs/release/
+playwright-report/
+test-results/
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+*.tmp
+*.cache
+dist/
+build/
+release/
+tmp/
+temp/
+
+# Dependency folders
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
