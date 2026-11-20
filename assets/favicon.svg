@@ -1,0 +1,5 @@
+<!-- 以二进制 01 作为计算机学习地图的浏览器标签标识。 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="8" fill="#17251f"/>
+  <text x="32" y="40" fill="#f6cf68" font-family="Consolas, monospace" font-size="26" font-weight="700" text-anchor="middle">01</text>
+</svg>
